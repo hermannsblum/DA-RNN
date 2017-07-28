@@ -1,16 +1,14 @@
 __author__ = 'yuxiang'
 
 import os
-import datasets
-import datasets.shapenet_single
-import datasets.imdb
+from . import imdb
 import cPickle
 import numpy as np
 import cv2
 
-class shapenet_single(datasets.imdb):
+class shapenet_single(imdb):
     def __init__(self, image_set, shapenet_single_path = None):
-        datasets.imdb.__init__(self, 'shapenet_single_' + image_set)
+        imdb.__init__(self, 'shapenet_single_' + image_set)
         self._image_set = image_set
         self._shapenet_single_path = self._get_default_path() if shapenet_single_path is None \
                             else shapenet_single_path

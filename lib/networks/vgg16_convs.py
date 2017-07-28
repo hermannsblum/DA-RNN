@@ -1,5 +1,5 @@
 import tensorflow as tf
-from networks.network import Network
+from .network import Network
 
 class vgg16_convs(Network):
     def __init__(self, input_format, num_classes, num_units, scales, vertex_reg=False, trainable=True):

@@ -5,16 +5,12 @@
 # Written by Yu Xiang
 # --------------------------------------------------------
 
-from .imdb import imdb
+from .imdb import imdb, ROOT_DIR
 from .shapenet_scene import shapenet_scene
 from .shapenet_single import shapenet_single
 from .gmu_scene import gmu_scene
 from .rgbd_scene import rgbd_scene
 from .lov import lov
-from . import factory
-
-import os.path as osp
-ROOT_DIR = osp.join(osp.dirname(__file__), '..', '..')
 
 # We assume your matlab binary is in your path and called `matlab'.
 # If either is not true, just add it to your path and alias it as matlab, or

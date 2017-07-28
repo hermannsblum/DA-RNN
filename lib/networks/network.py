@@ -1,15 +1,15 @@
 import numpy as np
 from math import ceil
 import tensorflow as tf
-import backprojecting_layer.backprojecting_op as backproject_op
-import backprojecting_layer.backprojecting_op_grad
-import projecting_layer.projecting_op as project_op
-import projecting_layer.projecting_op_grad
-import computing_label_layer.computing_label_op as compute_label_op
-import computing_flow_layer.computing_flow_op as compute_flow_op
-import computing_flow_layer.computing_flow_op_grad
-import triplet_loss.triplet_loss_op as triplet_loss_op
-import triplet_loss.triplet_loss_op_grad
+from ..backprojecting_layer import backprojecting_op as backproject_op
+from ..backprojecting_layer import backprojecting_op_grad
+from ..projecting_layer import projecting_op as project_op
+from ..projecting_layer import projecting_op_grad
+from ..computing_label_layer import computing_label_op as compute_label_op
+from ..computing_flow_layer import computing_flow_op as compute_flow_op
+from ..computing_flow_layer import computing_flow_op_grad
+from ..triplet_loss import triplet_loss_op as triplet_loss_op
+from ..triplet_loss import triplet_loss_op_grad
 from gru2d import GRU2DCell
 from gru2d_original import GRUCell
 from gru3d import GRU3DCell
@@ -57,7 +57,7 @@ class Network(object):
         '''
         data_dict = np.load(data_path).item()
         for op_name in data_dict:
-            print op_name
+            print(op_name)
             with tf.variable_scope(op_name, reuse=True):
                 for param_name, data in data_dict[op_name].iteritems():
                     try:
@@ -92,9 +92,9 @@ class Network(object):
             if isinstance(layer, basestring):
                 try:
                     layer = self.layers[layer]
-                    print layer
+                    print(layer)
                 except KeyError:
-                    print self.layers.keys()
+                    print(self.layers.keys())
                     raise KeyError('Unknown layer name fed: %s'%layer)
             self.inputs.append(layer)
         return self
@@ -103,7 +103,7 @@ class Network(object):
         try:
             layer = self.layers[layer]
         except KeyError:
-            print self.layers.keys()
+            print(self.layers.keys())
             raise KeyError('Unknown layer name fed: %s'%layer)
         return layer
 

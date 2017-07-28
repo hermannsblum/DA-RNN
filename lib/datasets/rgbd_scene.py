@@ -1,16 +1,14 @@
 __author__ = 'yuxiang'
 
 import os
-import datasets
-import datasets.rgbd_scene
-import datasets.imdb
+from . import imdb, ROOT_DIR
 import cPickle
 import numpy as np
 import cv2
 
-class rgbd_scene(datasets.imdb):
+class rgbd_scene(imdb):
     def __init__(self, image_set, rgbd_scene_path = None):
-        datasets.imdb.__init__(self, 'rgbd_scene_' + image_set)
+        imdb.__init__(self, 'rgbd_scene_' + image_set)
         self._image_set = image_set
         self._rgbd_scene_path = self._get_default_path() if rgbd_scene_path is None \
                             else rgbd_scene_path
@@ -109,7 +107,7 @@ class rgbd_scene(datasets.imdb):
         """
         Return the default path where KITTI is expected to be installed.
         """
-        return os.path.join(datasets.ROOT_DIR, 'data', 'RGBDScene')
+        return os.path.join(ROOT_DIR, 'data', 'RGBDScene')
 
 
     def gt_roidb(self):
@@ -280,6 +278,6 @@ class rgbd_scene(datasets.imdb):
 
 
 if __name__ == '__main__':
-    d = datasets.rgbd_scene('train')
+    d = rgbd_scene('train')
     res = d.roidb
     from IPython import embed; embed()

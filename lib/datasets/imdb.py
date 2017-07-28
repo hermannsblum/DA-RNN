@@ -10,8 +10,9 @@ import os.path as osp
 import PIL
 import numpy as np
 import scipy.sparse
-import datasets
-from fcn.config import cfg
+from ..fcn.config import cfg
+
+ROOT_DIR = osp.join(osp.dirname(__file__), '..', '..')
 
 class imdb(object):
     """Image database."""
@@ -64,7 +65,7 @@ class imdb(object):
 
     @property
     def cache_path(self):
-        cache_path = osp.abspath(osp.join(datasets.ROOT_DIR, 'data', 'cache'))
+        cache_path = osp.abspath(osp.join(ROOT_DIR, 'data', 'cache'))
         if not os.path.exists(cache_path):
             os.makedirs(cache_path)
         return cache_path

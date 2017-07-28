@@ -9,21 +9,21 @@
 
 __sets = {}
 
-import networks.vgg16
-import networks.vgg16_convs
-import networks.resnet50
+from . import vgg16
+from . import vgg16_convs
+from . import resnet50
 import tensorflow as tf
-from fcn.config import cfg
+from ..fcn.config import cfg
 
 if cfg.TRAIN.SINGLE_FRAME:
     if cfg.NETWORK == 'VGG16':
-        __sets['vgg16_convs'] = networks.vgg16_convs(cfg.INPUT, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.NUM_UNITS, cfg.TRAIN.SCALES_BASE, cfg.TRAIN.VERTEX_REG, cfg.TRAIN.TRAINABLE)
+        __sets['vgg16_convs'] = vgg16_convs(cfg.INPUT, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.NUM_UNITS, cfg.TRAIN.SCALES_BASE, cfg.TRAIN.VERTEX_REG, cfg.TRAIN.TRAINABLE)
     if cfg.NETWORK == 'RESNET50':
-        __sets['resnet50'] = networks.resnet50(cfg.INPUT, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.SCALES_BASE)
+        __sets['resnet50'] = resnet50(cfg.INPUT, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.SCALES_BASE)
     if cfg.NETWORK == 'FCN8VGG':
-        __sets['fcn8_vgg'] = networks.fcn8_vgg(cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.MODEL_PATH)
+        __sets['fcn8_vgg'] = fcn8_vgg(cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.MODEL_PATH)
 else:
-    __sets['vgg16'] = networks.vgg16(cfg.INPUT, cfg.TRAIN.NUM_STEPS, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.NUM_UNITS, cfg.TRAIN.SCALES_BASE)
+    __sets['vgg16'] = vgg16(cfg.INPUT, cfg.TRAIN.NUM_STEPS, cfg.TRAIN.NUM_CLASSES, cfg.TRAIN.NUM_UNITS, cfg.TRAIN.SCALES_BASE)
 
 def get_network(name):
     """Get a network by name."""

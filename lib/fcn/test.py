@@ -7,12 +7,12 @@
 
 """Test a FCN on an imdb (image database)."""
 
-from fcn.config import cfg, get_output_dir
+from .config import cfg, get_output_dir
 import argparse
-from utils.timer import Timer
-from utils.blob import im_list_to_blob, pad_im, unpad_im
-from utils.voxelizer import Voxelizer, set_axes_equal
-from utils.se3 import *
+from ..utils.timer import Timer
+from ..utils.blob import im_list_to_blob, pad_im, unpad_im
+from ..utils.voxelizer import Voxelizer, set_axes_equal
+from ..utils.se3 import *
 import numpy as np
 import cv2
 import cPickle
@@ -21,8 +21,8 @@ import math
 import tensorflow as tf
 import scipy.io
 import time
-from normals import gpu_normals
-from kinect_fusion import kfusion
+#from ..normals import gpu_normals
+#from ..kinect_fusion import kfusion
 # from pose_estimation import ransac
 
 def _get_image_blob(im, im_depth, meta_data):
@@ -75,27 +75,28 @@ def _get_image_blob(im, im_depth, meta_data):
     cy = K[1, 2]
 
     # normals
-    depth = im_depth.astype(np.float32, copy=True) / float(meta_data['factor_depth'])
-    nmap = gpu_normals.gpu_normals(depth, fx, fy, cx, cy, 20.0, cfg.GPU_ID)
-    im_normal = 127.5 * nmap + 127.5
-    im_normal = im_normal.astype(np.uint8)
-    im_normal = im_normal[:, :, (2, 1, 0)]
-    im_normal = cv2.bilateralFilter(im_normal, 9, 75, 75)
+    #depth = im_depth.astype(np.float32, copy=True) / float(meta_data['factor_depth'])
+    #nmap = gpu_normals.gpu_normals(depth, fx, fy, cx, cy, 20.0, cfg.GPU_ID)
+    #im_normal = 127.5 * nmap + 127.5
+    #im_normal = im_normal.astype(np.uint8)
+    #im_normal = im_normal[:, :, (2, 1, 0)]
+    #im_normal = cv2.bilateralFilter(im_normal, 9, 75, 75)
 
-    im_orig = im_normal.astype(np.float32, copy=True)
-    im_orig -= cfg.PIXEL_MEANS
+    #im_orig = im_normal.astype(np.float32, copy=True)
+    #im_orig -= cfg.PIXEL_MEANS
 
-    processed_ims_normal = []
-    im = cv2.resize(im_orig, None, None, fx=im_scale, fy=im_scale, interpolation=cv2.INTER_LINEAR)
-    processed_ims_normal.append(im)
+    #processed_ims_normal = []
+    #im = cv2.resize(im_orig, None, None, fx=im_scale, fy=im_scale, interpolation=cv2.INTER_LINEAR)
+    #processed_ims_normal.append(im)
 
     # Create a blob to hold the input images
     blob = im_list_to_blob(processed_ims, 3)
     blob_rescale = im_list_to_blob(processed_ims_rescale, 3)
     blob_depth = im_list_to_blob(processed_ims_depth, 3)
-    blob_normal = im_list_to_blob(processed_ims_normal, 3)
+    #blob_normal = im_list_to_blob(processed_ims_normal, 3)
 
-    return blob, blob_rescale, blob_depth, blob_normal, np.array(im_scale_factors)
+    #return blob, blob_rescale, blob_depth, blob_normal, np.array(im_scale_factors)
+    return blob, blob_rescale, blob_depth, None, np.array(im_scale_factors)
 
 
 def im_segment_single_frame(sess, net, im, im_depth, meta_data, num_classes):
@@ -661,12 +662,12 @@ def test_net_single_frame(sess, net, imdb, weights_filename, rig_filename, is_kf
     _t = {'im_segment' : Timer(), 'misc' : Timer()}
 
     # kinect fusion
-    if is_kfusion:
-        KF = kfusion.PyKinectFusion(rig_filename)
+    #if is_kfusion:
+    #    KF = kfusion.PyKinectFusion(rig_filename)
 
     # pose estimation
-    if cfg.TEST.VERTEX_REG and cfg.TEST.RANSAC:
-        RANSAC = ransac.PyRansac3D()
+    #if cfg.TEST.VERTEX_REG and cfg.TEST.RANSAC:
+    #    RANSAC = ransac.PyRansac3D()
 
     # construct colors
     colors = np.zeros((3 * imdb.num_classes), dtype=np.uint8)

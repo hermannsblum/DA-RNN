@@ -5,7 +5,7 @@
 # Written by Yu Xiang
 # --------------------------------------------------------
 
-from fcn.config import cfg
+from ..fcn.config import cfg
 import numpy as np
 
 class Voxelizer(object):

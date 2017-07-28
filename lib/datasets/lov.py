@@ -1,16 +1,14 @@
 __author__ = 'yuxiang'
 
 import os
-import datasets
-import datasets.lov
-import datasets.imdb
+from . import imdb
 import cPickle
 import numpy as np
 import cv2
 
-class lov(datasets.imdb):
+class lov(imdb):
     def __init__(self, image_set, lov_path = None):
-        datasets.imdb.__init__(self, 'lov_' + image_set)
+        imdb.__init__(self, 'lov_' + image_set)
         self._image_set = image_set
         self._lov_path = self._get_default_path() if lov_path is None \
                             else lov_path

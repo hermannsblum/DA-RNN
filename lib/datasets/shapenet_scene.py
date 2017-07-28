@@ -1,16 +1,14 @@
 __author__ = 'yuxiang'
 
 import os
-import datasets
-import datasets.shapenet_scene
-import datasets.imdb
+from . import imdb
 import cPickle
 import numpy as np
 import cv2
 
-class shapenet_scene(datasets.imdb):
+class shapenet_scene(imdb):
     def __init__(self, image_set, shapenet_scene_path = None):
-        datasets.imdb.__init__(self, 'shapenet_scene_' + image_set)
+        imdb.__init__(self, 'shapenet_scene_' + image_set)
         self._image_set = image_set
         self._shapenet_scene_path = self._get_default_path() if shapenet_scene_path is None \
                             else shapenet_scene_path

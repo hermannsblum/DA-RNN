@@ -1,5 +1,5 @@
 import tensorflow as tf
-from networks.network import Network
+from .network import Network
 
 class vgg16(Network):
     def __init__(self, input_format, num_steps, num_classes, num_units, scales, trainable=True):
@@ -126,7 +126,7 @@ class vgg16(Network):
 
             (self.feed('score_conv4', 'upscore_conv5')
                  .add(name='add_score')
-                 .deconv(int(16*self.scale), int(16*self.scale), self.num_units, int(8*self.scale), int(8*self.scale), name='upscore', reuse=reuse, trainable=False))
+                 .deconv(int(4*self.scale), int(4*self.scale), self.num_units, int(8*self.scale), int(8*self.scale), name='upscore', reuse=reuse, trainable=False))
 
             (self.feed('state', 'weights', 'points', 'depth', 'meta_data')
                  .compute_flow(3, 0.02, 50, name='flow'))

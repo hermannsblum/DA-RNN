@@ -9,11 +9,11 @@
 
 __sets = {}
 
-import datasets.shapenet_scene
-import datasets.shapenet_single
-import datasets.gmu_scene
-import datasets.rgbd_scene
-import datasets.lov
+from . import shapenet_scene
+from . import shapenet_single
+from . import gmu_scene
+from . import rgbd_scene
+from . import lov
 import numpy as np
 
 # shapenet dataset
@@ -21,34 +21,34 @@ for split in ['train', 'val']:
     name = 'shapenet_scene_{}'.format(split)
     print name
     __sets[name] = (lambda split=split:
-            datasets.shapenet_scene(split))
+            shapenet_scene(split))
 
 for split in ['train', 'val']:
     name = 'shapenet_single_{}'.format(split)
     print name
     __sets[name] = (lambda split=split:
-            datasets.shapenet_single(split))
+            shapenet_single(split))
 
 # gmu scene dataset
 for split in ['train', 'val']:
     name = 'gmu_scene_{}'.format(split)
     print name
     __sets[name] = (lambda split=split:
-            datasets.gmu_scene(split))
+            gmu_scene(split))
 
 # rgbd scene dataset
 for split in ['train', 'val', 'trainval']:
     name = 'rgbd_scene_{}'.format(split)
     print name
     __sets[name] = (lambda split=split:
-            datasets.rgbd_scene(split))
+            rgbd_scene(split))
 
 # lov dataset
 for split in ['train', 'val']:
     name = 'lov_{}'.format(split)
     print name
     __sets[name] = (lambda split=split:
-            datasets.lov(split))
+            lov(split))
 
 def get_imdb(name):
     """Get an imdb (image database) by name."""

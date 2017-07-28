@@ -1,5 +1,5 @@
 import tensorflow as tf
-from networks.network import Network
+from .network import Network
 
 class resnet50(Network):
     def __init__(self, input_format, num_classes, scales, trainable=True):
