@@ -6,3 +6,5 @@
 *.o
 output/*
 lib/icp/icp_main.cpp
+data/RGBDScene/data
+data/RGBDScene/vgg16*
