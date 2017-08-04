@@ -10,7 +10,7 @@ class vgg16_convs(Network):
         self.scale = 1 / scales[0]
         self.vertex_reg = vertex_reg
 
-        
+
         if input_format == 'RGBD':
             self.data_p = tf.placeholder(tf.float32, shape=[None, None, None, 3])
         self.gt_label_2d = tf.placeholder(tf.float32, shape=[None, None, None, self.num_classes],
@@ -122,7 +122,7 @@ class vgg16_convs(Network):
 
             (self.feed('conv4_3')
                  .conv(1, 1, 128, 1, 1, name='score_conv4_vertex', relu=False, c_i=512))
-            
+
             (self.feed('score_conv4_vertex', 'upscore_conv5_vertex')
                  .add(name='add_score_vertex')
                  .dropout(self.keep_prob_queue, name='dropout_vertex')
