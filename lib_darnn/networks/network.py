@@ -1,15 +1,15 @@
 import numpy as np
 from math import ceil
 import tensorflow as tf
-from lib_darnn.backprojecting_layer import backprojecting_op as backproject_op
-from lib_darnn.backprojecting_layer import backprojecting_op_grad
-from lib_darnn.projecting_layer import projecting_op as project_op
-from lib_darnn.projecting_layer import projecting_op_grad
-from lib_darnn.computing_label_layer import computing_label_op as compute_label_op
-from lib_darnn.computing_flow_layer import computing_flow_op as compute_flow_op
-from lib_darnn.computing_flow_layer import computing_flow_op_grad
-from lib_darnn.triplet_loss import triplet_loss_op as triplet_loss_op
-from lib_darnn.triplet_loss import triplet_loss_op_grad
+#from lib_darnn.backprojecting_layer import backprojecting_op as backproject_op
+#from lib_darnn.backprojecting_layer import backprojecting_op_grad
+#from lib_darnn.projecting_layer import projecting_op as project_op
+#from lib_darnn.projecting_layer import projecting_op_grad
+#from lib_darnn.computing_label_layer import computing_label_op as compute_label_op
+#from lib_darnn.computing_flow_layer import computing_flow_op as compute_flow_op
+#from lib_darnn.computing_flow_layer import computing_flow_op_grad
+#from lib_darnn.triplet_loss import triplet_loss_op as triplet_loss_op
+#from lib_darnn.triplet_loss import triplet_loss_op_grad
 from gru2d import GRU2DCell
 from gru2d_original import GRUCell
 from gru3d import GRU3DCell
@@ -162,7 +162,7 @@ class Network(object):
                 biases = self.make_var('biases', [c_o], init_biases, trainable)
                 output = tf.nn.bias_add(output, biases)
             if relu:
-                output = tf.nn.relu(output, name=scope.name)    
+                output = tf.nn.relu(output, name=scope.name)
         return output
 
     @layer
@@ -198,37 +198,37 @@ class Network(object):
             weights = self.make_deconv_filter('weights', f_shape, trainable)
         return tf.nn.conv2d_transpose(input, weights, output_shape, [1, s_h, s_w, 1], padding=padding, name=scope.name)
 
-    @layer
-    def backproject(self, input, grid_size, kernel_size, threshold, name):
-        return backproject_op.backproject(input[0], input[1], input[2], input[3], input[4], grid_size, kernel_size, threshold, name=name)
+    #@layer
+    #def backproject(self, input, grid_size, kernel_size, threshold, name):
+    #    return backproject_op.backproject(input[0], input[1], input[2], input[3], input[4], grid_size, kernel_size, threshold, name=name)
 
-    @layer
-    def compute_flow(self, input, kernel_size, threshold, max_weight, name):
-        return compute_flow_op.compute_flow(input[0], input[1], input[2], input[3], input[4], kernel_size, threshold, max_weight, name=name)
+    #@layer
+    #def compute_flow(self, input, kernel_size, threshold, max_weight, name):
+    #    return compute_flow_op.compute_flow(input[0], input[1], input[2], input[3], input[4], kernel_size, threshold, max_weight, name=name)
 
-    @layer
-    def triplet_loss(self, input, margin, name):
-        return triplet_loss_op.triplet_loss(input[0], input[1], tf.cast(input[2], tf.int32), margin, name=name)
+    #@layer
+    #def triplet_loss(self, input, margin, name):
+    #    return triplet_loss_op.triplet_loss(input[0], input[1], tf.cast(input[2], tf.int32), margin, name=name)
 
-    @layer
-    def project(self, input, kernel_size, threshold, name):
-        return project_op.project(input[0], input[1], input[2], kernel_size, threshold, name=name)
+    #@layer
+    #def project(self, input, kernel_size, threshold, name):
+    #    return project_op.project(input[0], input[1], input[2], kernel_size, threshold, name=name)
 
-    @layer
-    def compute_label(self, input, name):
-        return compute_label_op.compute_label(input[0], input[1], input[2], name=name)
+    #@layer
+    #def compute_label(self, input, name):
+    #    return compute_label_op.compute_label(input[0], input[1], input[2], name=name)
 
-    @layer
-    def rnn_gru2d(self, input, num_units, channels, name, reuse=None):
-        with tf.variable_scope(name, reuse=reuse) as scope:
-            gru2d = GRU2DCell(num_units, channels)
-            return gru2d(input[0], input[1][0], input[1][1], scope)
+    #@layer
+    #def rnn_gru2d(self, input, num_units, channels, name, reuse=None):
+    #    with tf.variable_scope(name, reuse=reuse) as scope:
+    #        gru2d = GRU2DCell(num_units, channels)
+    #        return gru2d(input[0], input[1][0], input[1][1], scope)
 
-    @layer
-    def rnn_gru2d_original(self, input, num_units, channels, name, reuse=None):
-        with tf.variable_scope(name, reuse=reuse) as scope:
-            gru2d = GRUCell(num_units, channels)
-            return gru2d(input[0], input[1][0], input[1][1], scope)
+    #@layer
+    #def rnn_gru2d_original(self, input, num_units, channels, name, reuse=None):
+    #    with tf.variable_scope(name, reuse=reuse) as scope:
+    #        gru2d = GRUCell(num_units, channels)
+    #        return gru2d(input[0], input[1][0], input[1][1], scope)
 
     @layer
     def rnn_gru3d(self, input, num_units, channels, name, reuse=None):
@@ -241,7 +241,7 @@ class Network(object):
         with tf.variable_scope(name, reuse=reuse) as scope:
             vanilla2d = Vanilla2DCell(num_units, channels)
             return vanilla2d(input[0], input[1], scope)
-    
+
     @layer
     def rnn_add2d(self, input, num_units, channels, step, name, reuse=None):
         with tf.variable_scope(name, reuse=reuse) as scope:
@@ -437,7 +437,7 @@ class Network(object):
 
         with tf.variable_scope(name, reuse=reuse) as scope:
             output = tf.contrib.layers.batch_norm(input,
-                      decay=momentum, 
+                      decay=momentum,
                       updates_collections=None,
                       epsilon=epsilon,
                       scale=True,
@@ -559,7 +559,7 @@ class Network(object):
                 # compatibility transform
                 kernel = np.zeros([1, 1, num_classes, num_classes])
                 for i in range(num_classes):
-                    kernel[0, 0, i, i] = 1            
+                    kernel[0, 0, i, i] = 1
                 init_weights = tf.constant_initializer(value=kernel, dtype=tf.float32)
                 weights_comp = self.make_var('weights_comp', [1, 1, num_classes, num_classes], init_weights, trainable)
                 compatibility = tf.nn.conv2d(message, weights_comp, [1, 1, 1, 1], padding=DEFAULT_PADDING)
